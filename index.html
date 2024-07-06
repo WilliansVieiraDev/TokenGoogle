@@ -31,7 +31,7 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         const CLIENT_ID = '682076103982-8ln7r6lm8kihjdhgcnjpjhagcmam29vi.apps.googleusercontent.com'; // Substitua pelo seu Client ID
-        const REDIRECT_URI = 'http://localhost';
+        const REDIRECT_URI = 'https://token-google-326gfmtyt-willians-projects-45a6d2a0.vercel.app';
 
         document.getElementById('login-button').addEventListener('click', function () {
             const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=https://www.googleapis.com/auth/calendar`;
