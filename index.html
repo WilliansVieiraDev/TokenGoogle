@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Auth</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        #token-container {
+            display: none;
+            margin-top: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Login with Google</h1>
+    <button id="login-button">Sign in with Google</button>
+    <div id="token-container">
+        <h2>Google Access Token</h2>
+        <textarea id="token" readonly></textarea>
+    </div>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+        const CLIENT_ID = '682076103982-8ln7r6lm8kihjdhgcnjpjhagcmam29vi.apps.googleusercontent.com'; // Substitua pelo seu Client ID
+        const REDIRECT_URI = 'http://localhost';
+
+        document.getElementById('login-button').addEventListener('click', function () {
+            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=https://www.googleapis.com/auth/calendar`;
+            window.location.href = authUrl;
+        });
+
+        window.addEventListener('load', function () {
+            const params = new URLSearchParams(window.location.hash.slice(1));
+            const token = params.get('access_token');
+            if (token) {
+                document.getElementById('token-container').style.display = 'block';
+                document.getElementById('token').value = token;
+            }
+        });
+    </script>
+</body>
+</html>
