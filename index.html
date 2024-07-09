@@ -31,7 +31,8 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         const CLIENT_ID = '682076103982-8ln7r6lm8kihjdhgcnjpjhagcmam29vi.apps.googleusercontent.com'; // Substitua pelo seu Client ID
-        const REDIRECT_URI = 'https://token-google.vercel.app';
+        const REDIRECT_URI = 'https://token-google.vercel.app'; // Substitua pela sua URL de redirecionamento
+        const API_URL = 'https://tadeu-integration-calendar-prd.azurewebsites.net/api/AuthenticationGoogle/save-token'; // Substitua pela URL da sua API
 
         document.getElementById('login-button').addEventListener('click', function () {
             const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=https://www.googleapis.com/auth/calendar`;
@@ -41,9 +42,40 @@
         window.addEventListener('load', function () {
             const params = new URLSearchParams(window.location.hash.slice(1));
             const token = params.get('access_token');
+            const expiresIn = params.get('expires_in');
+            const userId = '11984567207'; // Substitua pelo identificador único do usuário
+
             if (token) {
                 document.getElementById('token-container').style.display = 'block';
                 document.getElementById('token').value = token;
+
+                // Calcula a data de expiração
+                const expiryDate = new Date();
+                expiryDate.setSeconds(expiryDate.getSeconds() + parseInt(expiresIn));
+
+                // Dados para enviar à API
+                const tokenData = {
+                    userId: userId,
+                    accessToken: token,
+                    refreshToken: '', // Se disponível
+                    expiryDate: expiryDate.toISOString()
+                };
+
+                // Faz a solicitação POST para salvar o token
+                fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(tokenData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
             }
         });
     </script>
