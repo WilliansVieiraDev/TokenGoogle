@@ -10,23 +10,11 @@
             text-align: center;
             padding: 50px;
         }
-        #token-container {
-            display: none;
-            margin-top: 20px;
-        }
-        textarea {
-            width: 100%;
-            height: 150px;
-        }
     </style>
 </head>
 <body>
     <h1>Login with Google</h1>
     <button id="login-button">Sign in with Google</button>
-    <div id="token-container">
-        <h2>Google Access Token</h2>
-        <textarea id="token" readonly></textarea>
-    </div>
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
@@ -46,9 +34,6 @@
             const userId = '11984567207'; // Substitua pelo identificador único do usuário
 
             if (token) {
-                document.getElementById('token-container').style.display = 'block';
-                document.getElementById('token').value = token;
-
                 // Calcula a data de expiração
                 const expiryDate = new Date();
                 expiryDate.setSeconds(expiryDate.getSeconds() + parseInt(expiresIn));
