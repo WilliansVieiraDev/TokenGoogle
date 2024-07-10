@@ -24,13 +24,16 @@
 
         document.getElementById('login-button').addEventListener('click', function () {
             const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=https://www.googleapis.com/auth/calendar`;
-            window.location.href = authUrl;
+            window.open(authUrl, 'authWindow', 'width=600,height=600');
         });
 
-        window.addEventListener('load', function () {
-            const params = new URLSearchParams(window.location.hash.slice(1));
-            const token = params.get('access_token');
-            const expiresIn = params.get('expires_in');
+        window.addEventListener('message', function (event) {
+            if (event.origin !== window.location.origin) {
+                return;
+            }
+
+            const token = event.data.accessToken;
+            const expiresIn = event.data.expiresIn;
             const userId = '11984567207'; // Substitua pelo identificador único do usuário
 
             if (token) {
@@ -63,6 +66,17 @@
                     console.error('Error:', error);
                     window.close();
                 });
+            }
+        });
+
+        window.addEventListener('load', function () {
+            const params = new URLSearchParams(window.location.hash.slice(1));
+            const token = params.get('access_token');
+            const expiresIn = params.get('expires_in');
+
+            if (token) {
+                window.opener.postMessage({ accessToken: token, expiresIn: expiresIn }, window.location.origin);
+                window.close();
             }
         });
     </script>
