@@ -108,14 +108,13 @@
                     if (!response.ok) {
                         throw new Error('Token não registrado');
                     }
-                    return response.json();
-                })
-                .then(data => {
                     const messageElement = document.getElementById('message');
                     messageElement.style.display = 'block';
                     setTimeout(() => {
                         window.close();
                     }, 3000);
+
+                    return response.json();
                 })
                 .catch((error) => {
                     console.error('Error:', error);
