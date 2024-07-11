@@ -69,7 +69,14 @@
                     },
                     body: JSON.stringify(tokenData)
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json().catch(() => {
+                        throw new Error('Invalid JSON response');
+                    });
+                })
                 .then(data => {
                     const messageElement = document.getElementById('message');
                     messageElement.style.display = 'block';
@@ -80,7 +87,8 @@
                 .catch((error) => {
                     console.error('Error:', error);
                     const messageElement = document.getElementById('message');
-                    messageElement.innerText = 'Erro ao registrar o token'+ error;
+                    messageElement.innerText = 'Erro ao registrar o token';
+                    console.log(error);
                     messageElement.style.color = 'red';
                     messageElement.style.display = 'block';
                     setTimeout(() => {
