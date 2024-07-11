@@ -80,7 +80,7 @@
                 .catch((error) => {
                     console.error('Error:', error);
                     const messageElement = document.getElementById('message');
-                    messageElement.innerText = 'Erro ao registrar o token';
+                    messageElement.innerText = 'Erro ao registrar o token'+ error;
                     messageElement.style.color = 'red';
                     messageElement.style.display = 'block';
                     setTimeout(() => {
