@@ -21,8 +21,8 @@
 <body>
     <h1>Login with Google</h1>
     <input type="text" id="user-id" placeholder="Enter your User ID">
-    <button id="login-button">Sign in with Google</button>
-    <p id="message">Token registrado. Fechando a página...</p>
+    <button id="login-button">Login com google</button>
+    <p id="message">Token registrado...</p>
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
@@ -33,7 +33,7 @@
         document.getElementById('login-button').addEventListener('click', function () {
             const userId = document.getElementById('user-id').value.trim();
             if (!userId) {
-                alert('Please enter your User ID');
+                alert('Insira o telefone');
                 return;
             }
             localStorage.setItem('userId', userId);
