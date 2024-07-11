@@ -73,11 +73,8 @@
                     console.log(response);
                     console.log(response.ok);
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        throw new Error('Token não registrado');
                     }
-                    return response.json().catch(() => {
-                        throw new Error('Invalid JSON response');
-                    });
                 })
                 .then(data => {
                     const messageElement = document.getElementById('message');
